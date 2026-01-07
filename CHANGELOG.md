@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.7](https://github.com/ArchiveAegis/aegis-proto/compare/v0.1.6...v0.1.7) (2026-01-07)
+
+
+### Bug Fixes
+
+* **ci:** improve rust release script to explicitly include generated sources ([ff0970b](https://github.com/ArchiveAegis/aegis-proto/commit/ff0970b7e1ac57d980758b64774ff8d0df3eee2e))
+
 ## [0.1.6](https://github.com/ArchiveAegis/aegis-proto/compare/v0.1.5...v0.1.6) (2026-01-07)
 
 
