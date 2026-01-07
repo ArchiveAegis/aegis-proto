@@ -80,7 +80,7 @@ include = [
 prost = "0.13"
 prost-types = "0.13"
 tonic = "0.12"
-tonic-prost = "0.12"
+tonic-prost = "0.14"
 tokio = { version = "1", features = ["rt-multi-thread"] }
 http-body = "1.0"
 http-body-util = "0.1"
