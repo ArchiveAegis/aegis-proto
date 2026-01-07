@@ -982,7 +982,7 @@ func (*HealthCheckRequest) Descriptor() ([]byte, []int) {
 
 type HealthCheckResponse struct {
 	state         protoimpl.MessageState            `protogen:"open.v1"`
-	Status        HealthCheckResponse_ServingStatus `protobuf:"varint,1,opt,name=status,proto3,enum=datasource.HealthCheckResponse_ServingStatus" json:"status,omitempty"`
+	Status        HealthCheckResponse_ServingStatus `protobuf:"varint,1,opt,name=status,proto3,enum=datasource.v1.HealthCheckResponse_ServingStatus" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1216,34 +1216,33 @@ var File_proto_datasource_v1_datasource_proto protoreflect.FileDescriptor
 
 const file_proto_datasource_v1_datasource_proto_rawDesc = "" +
 	"\n" +
-	"$proto/datasource/v1/datasource.proto\x12\n" +
-	"datasource\x1a\x19google/protobuf/any.proto\x1a\x1cgoogle/protobuf/struct.proto\"\xff\x01\n" +
+	"$proto/datasource/v1/datasource.proto\x12\rdatasource.v1\x1a\x19google/protobuf/any.proto\x1a\x1cgoogle/protobuf/struct.proto\"\x82\x02\n" +
 	"\x0fRequestEnvelope\x12\x1d\n" +
 	"\n" +
 	"request_id\x18\x01 \x01(\tR\trequestId\x12\x19\n" +
-	"\bbiz_name\x18\x02 \x01(\tR\abizName\x12E\n" +
-	"\bmetadata\x18\x03 \x03(\v2).datasource.RequestEnvelope.MetadataEntryR\bmetadata\x12.\n" +
+	"\bbiz_name\x18\x02 \x01(\tR\abizName\x12H\n" +
+	"\bmetadata\x18\x03 \x03(\v2,.datasource.v1.RequestEnvelope.MetadataEntryR\bmetadata\x12.\n" +
 	"\apayload\x18\x04 \x01(\v2\x14.google.protobuf.AnyR\apayload\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xa5\x01\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xa8\x01\n" +
 	"\x10ResponseEnvelope\x12\x1d\n" +
 	"\n" +
-	"request_id\x18\x01 \x01(\tR\trequestId\x12*\n" +
-	"\x06status\x18\x02 \x01(\v2\x12.datasource.StatusR\x06status\x12.\n" +
+	"request_id\x18\x01 \x01(\tR\trequestId\x12-\n" +
+	"\x06status\x18\x02 \x01(\v2\x15.datasource.v1.StatusR\x06status\x12.\n" +
 	"\apayload\x18\x03 \x01(\v2\x14.google.protobuf.AnyR\apayload\x12\x16\n" +
 	"\x06action\x18\x04 \x01(\tR\x06action\"i\n" +
 	"\x06Status\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\x05R\x04code\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x121\n" +
 	"\adetails\x18\x03 \x01(\v2\x17.google.protobuf.StructR\adetails\"\x16\n" +
-	"\x14GetPluginInfoRequest\"\xb5\x02\n" +
+	"\x14GetPluginInfoRequest\"\xb8\x02\n" +
 	"\x15GetPluginInfoResponse\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x18\n" +
 	"\aversion\x18\x02 \x01(\tR\aversion\x12\x12\n" +
 	"\x04type\x18\x03 \x01(\tR\x04type\x121\n" +
-	"\x14description_markdown\x18\x04 \x01(\tR\x13descriptionMarkdown\x12A\n" +
-	"\x10contract_version\x18\x05 \x01(\v2\x16.datasource.ApiVersionR\x0fcontractVersion\x12-\n" +
+	"\x14description_markdown\x18\x04 \x01(\tR\x13descriptionMarkdown\x12D\n" +
+	"\x10contract_version\x18\x05 \x01(\v2\x19.datasource.v1.ApiVersionR\x0fcontractVersion\x12-\n" +
 	"\x12supported_payloads\x18\x06 \x03(\tR\x11supportedPayloads\x125\n" +
 	"\x16supported_capabilities\x18\a \x03(\tR\x15supportedCapabilities\"N\n" +
 	"\n" +
@@ -1262,14 +1261,14 @@ const file_proto_datasource_v1_datasource_proto_rawDesc = "" +
 	"\x04data\x18\x01 \x01(\v2\x17.google.protobuf.StructR\x04data\"1\n" +
 	"\x10GetSchemaRequest\x12\x1d\n" +
 	"\n" +
-	"table_name\x18\x01 \x01(\tR\ttableName\"\xa0\x01\n" +
-	"\fSchemaResult\x12<\n" +
-	"\x06tables\x18\x01 \x03(\v2$.datasource.SchemaResult.TablesEntryR\x06tables\x1aR\n" +
+	"table_name\x18\x01 \x01(\tR\ttableName\"\xa6\x01\n" +
+	"\fSchemaResult\x12?\n" +
+	"\x06tables\x18\x01 \x03(\v2'.datasource.v1.SchemaResult.TablesEntryR\x06tables\x1aU\n" +
 	"\vTablesEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12-\n" +
-	"\x05value\x18\x02 \x01(\v2\x17.datasource.TableSchemaR\x05value:\x028\x01\"C\n" +
-	"\vTableSchema\x124\n" +
-	"\x06fields\x18\x01 \x03(\v2\x1c.datasource.FieldDescriptionR\x06fields\"\xce\x01\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x120\n" +
+	"\x05value\x18\x02 \x01(\v2\x1a.datasource.v1.TableSchemaR\x05value:\x028\x01\"F\n" +
+	"\vTableSchema\x127\n" +
+	"\x06fields\x18\x01 \x03(\v2\x1f.datasource.v1.FieldDescriptionR\x06fields\"\xce\x01\n" +
 	"\x10FieldDescription\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1b\n" +
 	"\tdata_type\x18\x02 \x01(\tR\bdataType\x12#\n" +
@@ -1283,9 +1282,9 @@ const file_proto_datasource_v1_datasource_proto_rawDesc = "" +
 	"new_config\x18\x01 \x01(\v2\x17.google.protobuf.StructR\tnewConfig\"5\n" +
 	"\x19UpdateConfigurationResult\x12\x18\n" +
 	"\amessage\x18\x01 \x01(\tR\amessage\"\x14\n" +
-	"\x12HealthCheckRequest\"\x98\x01\n" +
-	"\x13HealthCheckResponse\x12E\n" +
-	"\x06status\x18\x01 \x01(\x0e2-.datasource.HealthCheckResponse.ServingStatusR\x06status\":\n" +
+	"\x12HealthCheckRequest\"\x9b\x01\n" +
+	"\x13HealthCheckResponse\x12H\n" +
+	"\x06status\x18\x01 \x01(\x0e20.datasource.v1.HealthCheckResponse.ServingStatusR\x06status\":\n" +
 	"\rServingStatus\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\v\n" +
 	"\aSERVING\x10\x01\x12\x0f\n" +
@@ -1295,22 +1294,22 @@ const file_proto_datasource_v1_datasource_proto_rawDesc = "" +
 	"\x13TriggerBackupResult\x12*\n" +
 	"\x11final_backup_path\x18\x01 \x01(\tR\x0ffinalBackupPath\x12\x1b\n" +
 	"\tfile_size\x18\x02 \x01(\x03R\bfileSize\x12$\n" +
-	"\x0edb_files_count\x18\x03 \x01(\x05R\fdbFilesCount\"\x94\x02\n" +
+	"\x0edb_files_count\x18\x03 \x01(\x05R\fdbFilesCount\"\x97\x02\n" +
 	"\x12SharedMemoryHandle\x12\x1b\n" +
 	"\tfile_path\x18\x01 \x01(\tR\bfilePath\x12\x16\n" +
 	"\x06offset\x18\x02 \x01(\x03R\x06offset\x12\x16\n" +
 	"\x06length\x18\x03 \x01(\x03R\x06length\x12\x16\n" +
 	"\x06format\x18\x04 \x01(\tR\x06format\x12\x12\n" +
-	"\x04rows\x18\x05 \x01(\x03R\x04rows\x12H\n" +
-	"\bmetadata\x18\x06 \x03(\v2,.datasource.SharedMemoryHandle.MetadataEntryR\bmetadata\x1a;\n" +
+	"\x04rows\x18\x05 \x01(\x03R\x04rows\x12K\n" +
+	"\bmetadata\x18\x06 \x03(\v2/.datasource.v1.SharedMemoryHandle.MetadataEntryR\bmetadata\x1a;\n" +
 	"\rMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x012\xf8\x01\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x012\x8a\x02\n" +
 	"\n" +
-	"DataSource\x12T\n" +
-	"\rGetPluginInfo\x12 .datasource.GetPluginInfoRequest\x1a!.datasource.GetPluginInfoResponse\x12D\n" +
-	"\aExecute\x12\x1b.datasource.RequestEnvelope\x1a\x1c.datasource.ResponseEnvelope\x12N\n" +
-	"\vHealthCheck\x12\x1e.datasource.HealthCheckRequest\x1a\x1f.datasource.HealthCheckResponseB#Z!gen/go/datasource/v1;datasourcev1b\x06proto3"
+	"DataSource\x12Z\n" +
+	"\rGetPluginInfo\x12#.datasource.v1.GetPluginInfoRequest\x1a$.datasource.v1.GetPluginInfoResponse\x12J\n" +
+	"\aExecute\x12\x1e.datasource.v1.RequestEnvelope\x1a\x1f.datasource.v1.ResponseEnvelope\x12T\n" +
+	"\vHealthCheck\x12!.datasource.v1.HealthCheckRequest\x1a\".datasource.v1.HealthCheckResponseB#Z!gen/go/datasource/v1;datasourcev1b\x06proto3"
 
 var (
 	file_proto_datasource_v1_datasource_proto_rawDescOnce sync.Once
@@ -1327,57 +1326,57 @@ func file_proto_datasource_v1_datasource_proto_rawDescGZIP() []byte {
 var file_proto_datasource_v1_datasource_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_proto_datasource_v1_datasource_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
 var file_proto_datasource_v1_datasource_proto_goTypes = []any{
-	(HealthCheckResponse_ServingStatus)(0), // 0: datasource.HealthCheckResponse.ServingStatus
-	(*RequestEnvelope)(nil),                // 1: datasource.RequestEnvelope
-	(*ResponseEnvelope)(nil),               // 2: datasource.ResponseEnvelope
-	(*Status)(nil),                         // 3: datasource.Status
-	(*GetPluginInfoRequest)(nil),           // 4: datasource.GetPluginInfoRequest
-	(*GetPluginInfoResponse)(nil),          // 5: datasource.GetPluginInfoResponse
-	(*ApiVersion)(nil),                     // 6: datasource.ApiVersion
-	(*DataQueryRequest)(nil),               // 7: datasource.DataQueryRequest
-	(*DataQueryResult)(nil),                // 8: datasource.DataQueryResult
-	(*DataMutateRequest)(nil),              // 9: datasource.DataMutateRequest
-	(*DataMutateResult)(nil),               // 10: datasource.DataMutateResult
-	(*GetSchemaRequest)(nil),               // 11: datasource.GetSchemaRequest
-	(*SchemaResult)(nil),                   // 12: datasource.SchemaResult
-	(*TableSchema)(nil),                    // 13: datasource.TableSchema
-	(*FieldDescription)(nil),               // 14: datasource.FieldDescription
-	(*UpdateConfigurationRequest)(nil),     // 15: datasource.UpdateConfigurationRequest
-	(*UpdateConfigurationResult)(nil),      // 16: datasource.UpdateConfigurationResult
-	(*HealthCheckRequest)(nil),             // 17: datasource.HealthCheckRequest
-	(*HealthCheckResponse)(nil),            // 18: datasource.HealthCheckResponse
-	(*TriggerBackupRequest)(nil),           // 19: datasource.TriggerBackupRequest
-	(*TriggerBackupResult)(nil),            // 20: datasource.TriggerBackupResult
-	(*SharedMemoryHandle)(nil),             // 21: datasource.SharedMemoryHandle
-	nil,                                    // 22: datasource.RequestEnvelope.MetadataEntry
-	nil,                                    // 23: datasource.SchemaResult.TablesEntry
-	nil,                                    // 24: datasource.SharedMemoryHandle.MetadataEntry
+	(HealthCheckResponse_ServingStatus)(0), // 0: datasource.v1.HealthCheckResponse.ServingStatus
+	(*RequestEnvelope)(nil),                // 1: datasource.v1.RequestEnvelope
+	(*ResponseEnvelope)(nil),               // 2: datasource.v1.ResponseEnvelope
+	(*Status)(nil),                         // 3: datasource.v1.Status
+	(*GetPluginInfoRequest)(nil),           // 4: datasource.v1.GetPluginInfoRequest
+	(*GetPluginInfoResponse)(nil),          // 5: datasource.v1.GetPluginInfoResponse
+	(*ApiVersion)(nil),                     // 6: datasource.v1.ApiVersion
+	(*DataQueryRequest)(nil),               // 7: datasource.v1.DataQueryRequest
+	(*DataQueryResult)(nil),                // 8: datasource.v1.DataQueryResult
+	(*DataMutateRequest)(nil),              // 9: datasource.v1.DataMutateRequest
+	(*DataMutateResult)(nil),               // 10: datasource.v1.DataMutateResult
+	(*GetSchemaRequest)(nil),               // 11: datasource.v1.GetSchemaRequest
+	(*SchemaResult)(nil),                   // 12: datasource.v1.SchemaResult
+	(*TableSchema)(nil),                    // 13: datasource.v1.TableSchema
+	(*FieldDescription)(nil),               // 14: datasource.v1.FieldDescription
+	(*UpdateConfigurationRequest)(nil),     // 15: datasource.v1.UpdateConfigurationRequest
+	(*UpdateConfigurationResult)(nil),      // 16: datasource.v1.UpdateConfigurationResult
+	(*HealthCheckRequest)(nil),             // 17: datasource.v1.HealthCheckRequest
+	(*HealthCheckResponse)(nil),            // 18: datasource.v1.HealthCheckResponse
+	(*TriggerBackupRequest)(nil),           // 19: datasource.v1.TriggerBackupRequest
+	(*TriggerBackupResult)(nil),            // 20: datasource.v1.TriggerBackupResult
+	(*SharedMemoryHandle)(nil),             // 21: datasource.v1.SharedMemoryHandle
+	nil,                                    // 22: datasource.v1.RequestEnvelope.MetadataEntry
+	nil,                                    // 23: datasource.v1.SchemaResult.TablesEntry
+	nil,                                    // 24: datasource.v1.SharedMemoryHandle.MetadataEntry
 	(*anypb.Any)(nil),                      // 25: google.protobuf.Any
 	(*structpb.Struct)(nil),                // 26: google.protobuf.Struct
 }
 var file_proto_datasource_v1_datasource_proto_depIdxs = []int32{
-	22, // 0: datasource.RequestEnvelope.metadata:type_name -> datasource.RequestEnvelope.MetadataEntry
-	25, // 1: datasource.RequestEnvelope.payload:type_name -> google.protobuf.Any
-	3,  // 2: datasource.ResponseEnvelope.status:type_name -> datasource.Status
-	25, // 3: datasource.ResponseEnvelope.payload:type_name -> google.protobuf.Any
-	26, // 4: datasource.Status.details:type_name -> google.protobuf.Struct
-	6,  // 5: datasource.GetPluginInfoResponse.contract_version:type_name -> datasource.ApiVersion
-	26, // 6: datasource.DataQueryRequest.query:type_name -> google.protobuf.Struct
-	26, // 7: datasource.DataQueryResult.data:type_name -> google.protobuf.Struct
-	26, // 8: datasource.DataMutateRequest.payload:type_name -> google.protobuf.Struct
-	26, // 9: datasource.DataMutateResult.data:type_name -> google.protobuf.Struct
-	23, // 10: datasource.SchemaResult.tables:type_name -> datasource.SchemaResult.TablesEntry
-	14, // 11: datasource.TableSchema.fields:type_name -> datasource.FieldDescription
-	26, // 12: datasource.UpdateConfigurationRequest.new_config:type_name -> google.protobuf.Struct
-	0,  // 13: datasource.HealthCheckResponse.status:type_name -> datasource.HealthCheckResponse.ServingStatus
-	24, // 14: datasource.SharedMemoryHandle.metadata:type_name -> datasource.SharedMemoryHandle.MetadataEntry
-	13, // 15: datasource.SchemaResult.TablesEntry.value:type_name -> datasource.TableSchema
-	4,  // 16: datasource.DataSource.GetPluginInfo:input_type -> datasource.GetPluginInfoRequest
-	1,  // 17: datasource.DataSource.Execute:input_type -> datasource.RequestEnvelope
-	17, // 18: datasource.DataSource.HealthCheck:input_type -> datasource.HealthCheckRequest
-	5,  // 19: datasource.DataSource.GetPluginInfo:output_type -> datasource.GetPluginInfoResponse
-	2,  // 20: datasource.DataSource.Execute:output_type -> datasource.ResponseEnvelope
-	18, // 21: datasource.DataSource.HealthCheck:output_type -> datasource.HealthCheckResponse
+	22, // 0: datasource.v1.RequestEnvelope.metadata:type_name -> datasource.v1.RequestEnvelope.MetadataEntry
+	25, // 1: datasource.v1.RequestEnvelope.payload:type_name -> google.protobuf.Any
+	3,  // 2: datasource.v1.ResponseEnvelope.status:type_name -> datasource.v1.Status
+	25, // 3: datasource.v1.ResponseEnvelope.payload:type_name -> google.protobuf.Any
+	26, // 4: datasource.v1.Status.details:type_name -> google.protobuf.Struct
+	6,  // 5: datasource.v1.GetPluginInfoResponse.contract_version:type_name -> datasource.v1.ApiVersion
+	26, // 6: datasource.v1.DataQueryRequest.query:type_name -> google.protobuf.Struct
+	26, // 7: datasource.v1.DataQueryResult.data:type_name -> google.protobuf.Struct
+	26, // 8: datasource.v1.DataMutateRequest.payload:type_name -> google.protobuf.Struct
+	26, // 9: datasource.v1.DataMutateResult.data:type_name -> google.protobuf.Struct
+	23, // 10: datasource.v1.SchemaResult.tables:type_name -> datasource.v1.SchemaResult.TablesEntry
+	14, // 11: datasource.v1.TableSchema.fields:type_name -> datasource.v1.FieldDescription
+	26, // 12: datasource.v1.UpdateConfigurationRequest.new_config:type_name -> google.protobuf.Struct
+	0,  // 13: datasource.v1.HealthCheckResponse.status:type_name -> datasource.v1.HealthCheckResponse.ServingStatus
+	24, // 14: datasource.v1.SharedMemoryHandle.metadata:type_name -> datasource.v1.SharedMemoryHandle.MetadataEntry
+	13, // 15: datasource.v1.SchemaResult.TablesEntry.value:type_name -> datasource.v1.TableSchema
+	4,  // 16: datasource.v1.DataSource.GetPluginInfo:input_type -> datasource.v1.GetPluginInfoRequest
+	1,  // 17: datasource.v1.DataSource.Execute:input_type -> datasource.v1.RequestEnvelope
+	17, // 18: datasource.v1.DataSource.HealthCheck:input_type -> datasource.v1.HealthCheckRequest
+	5,  // 19: datasource.v1.DataSource.GetPluginInfo:output_type -> datasource.v1.GetPluginInfoResponse
+	2,  // 20: datasource.v1.DataSource.Execute:output_type -> datasource.v1.ResponseEnvelope
+	18, // 21: datasource.v1.DataSource.HealthCheck:output_type -> datasource.v1.HealthCheckResponse
 	19, // [19:22] is the sub-list for method output_type
 	16, // [16:19] is the sub-list for method input_type
 	16, // [16:16] is the sub-list for extension type_name

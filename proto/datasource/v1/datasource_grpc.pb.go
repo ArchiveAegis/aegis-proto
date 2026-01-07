@@ -19,9 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	DataSource_GetPluginInfo_FullMethodName = "/datasource.DataSource/GetPluginInfo"
-	DataSource_Execute_FullMethodName       = "/datasource.DataSource/Execute"
-	DataSource_HealthCheck_FullMethodName   = "/datasource.DataSource/HealthCheck"
+	DataSource_GetPluginInfo_FullMethodName = "/datasource.v1.DataSource/GetPluginInfo"
+	DataSource_Execute_FullMethodName       = "/datasource.v1.DataSource/Execute"
+	DataSource_HealthCheck_FullMethodName   = "/datasource.v1.DataSource/HealthCheck"
 )
 
 // DataSourceClient is the client API for DataSource service.
@@ -176,7 +176,7 @@ func _DataSource_HealthCheck_Handler(srv interface{}, ctx context.Context, dec f
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var DataSource_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "datasource.DataSource",
+	ServiceName: "datasource.v1.DataSource",
 	HandlerType: (*DataSourceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
