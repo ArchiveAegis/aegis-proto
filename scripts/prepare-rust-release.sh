@@ -24,7 +24,7 @@ echo "Original directory structure:"
 find . -maxdepth 3 -not -path '*/.*'
 
 echo "Flattening generated file structure..."
-find . -type f -name "*.rs" -not -path "./lib.rs" -exec mv {} . \;
+find . -mindepth 2 -type f -name "*.rs" -exec mv {} . \;
 
 find . -type d -empty -delete
 
@@ -77,12 +77,20 @@ include = [
 ]
 
 [dependencies]
-prost = "0.12"
-tonic = "0.10"
-prost-types = "0.12"
+prost = "0.13"
+prost-types = "0.13"
+tonic = "0.12"
+tonic-prost = "0.12"
+tokio = { version = "1", features = ["rt-multi-thread"] }
+http-body = "1.0"
+http-body-util = "0.1"
+bytes = "1.0"
 
 [lib]
 path = "lib.rs"
 EOF
+
+echo "Cargo.toml content:"
+cat Cargo.toml
 
 echo "Rust crate preparation complete."
