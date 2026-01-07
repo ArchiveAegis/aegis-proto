@@ -1,0 +1,52 @@
+name: Component - Publish Go
+
+on:
+  workflow_call:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    name: Push to Release Branch
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.23'
+
+      - name: Install Protoc & Task & Plugins
+        run: |
+          sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
+          curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v25.3/protoc-25.3-linux-x86_64.zip
+          unzip -q protoc-25.3-linux-x86_64.zip -d $HOME/.local
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+          go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+
+      - name: Generate Protobuf Code
+        run: task gen
+
+      - name: Prepare Go Module
+        run: |
+          mkdir -p dist/go
+          cp -r gen/go/proto/* dist/go/
+          cp README.md dist/go/
+          
+          cd dist/go
+          go mod init github.com/${{ github.repository }}/go
+          go mod tidy
+
+          go build -v .
+
+      - name: Publish to Release Branch
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          REPO: self
+          BRANCH: release/go
+          FOLDER: dist/go
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MESSAGE: "chore: release go sdk ${{ github.ref_name }}"

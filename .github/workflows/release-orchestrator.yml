@@ -1,0 +1,21 @@
+name: Release Orchestrator
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  call-python-publish:
+    name: Call Python Release
+    uses: ./.github/workflows/wc-publish-python.yml
+    secrets: inherit
+
+  call-go-publish:
+    name: Call Go Release
+    uses: ./.github/workflows/wc-publish-go.yml
+    secrets: inherit

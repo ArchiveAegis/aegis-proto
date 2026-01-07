@@ -1,0 +1,82 @@
+name: Component - Publish Python
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    name: Build & Upload to PyPI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install Build Tools
+        run: pip install build
+
+      - name: Install Protoc & Task
+        run: |
+          sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
+          curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v25.3/protoc-25.3-linux-x86_64.zip
+          unzip -q protoc-25.3-linux-x86_64.zip -d $HOME/.local
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          pip install grpcio-tools
+
+      - name: Generate Protobuf Code
+        run: task gen
+
+      - name: Prepare Python Package
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            VERSION="0.0.0.dev$(date +%s)"
+          else
+            VERSION=${GITHUB_REF_NAME#v}
+          fi
+          echo "Preparing Python release for version: $VERSION"
+
+          # 补全 __init__.py
+          find gen/python -type d -exec touch {}/__init__.py \;
+          
+          # 动态生成 pyproject.toml
+          cat <<EOF > pyproject.toml
+          [build-system]
+          requires = ["setuptools>=61.0"]
+          build-backend = "setuptools.build_meta"
+
+          [project]
+          name = "aegis-proto"
+          version = "$VERSION"
+          authors = [{ name="Aegis Team", email="dev@aegis-platform.io" }]
+          description = "Aegis Platform Protobuf Definitions"
+          readme = "README.md"
+          requires-python = ">=3.8"
+          classifiers = [
+              "Programming Language :: Python :: 3",
+              "License :: OSI Approved :: MIT License",
+          ]
+          dependencies = [
+              "grpcio>=1.60.0",
+              "protobuf>=4.25.0",
+          ]
+
+          [tool.setuptools.packages.find]
+          where = ["gen/python"]
+          EOF
+          
+          cp README.md gen/python/README.md
+
+      - name: Build Wheel and Sdist
+        run: python3 -m build
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
