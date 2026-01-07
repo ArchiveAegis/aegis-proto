@@ -48,6 +48,11 @@ jobs:
           description = "Aegis Platform Protobuf Definitions"
           license = "MIT"
           repository = "https://github.com/${{ github.repository }}"
+          include = [
+            "datasource.v1.rs",
+            "lib.rs",
+            "README.md"
+          ]
 
           [dependencies]
           prost = "0.12"
