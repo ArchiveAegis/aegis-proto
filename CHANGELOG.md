@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.4](https://github.com/ArchiveAegis/aegis-proto/compare/v0.1.3...v0.1.4) (2026-01-07)
+
+
+### Bug Fixes
+
+* **ci:** resolve build errors for ts, rust, and go ([9494b13](https://github.com/ArchiveAegis/aegis-proto/commit/9494b13846f8c3d151f23cecb7942ca9c9611e31))
+
 ## [0.1.3](https://github.com/ArchiveAegis/aegis-proto/compare/v0.1.2...v0.1.3) (2026-01-07)
 
 
