@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.8](https://github.com/ArchiveAegis/aegis-proto/compare/v0.1.7...v0.1.8) (2026-01-07)
+
+
+### Bug Fixes
+
+* **ci:** update rust release script to flatten generated file structure and include tonic sources ([5f9e468](https://github.com/ArchiveAegis/aegis-proto/commit/5f9e468bf8b35c8f56c3640f655326c1e23ec2d9))
+
 ## [0.1.7](https://github.com/ArchiveAegis/aegis-proto/compare/v0.1.6...v0.1.7) (2026-01-07)
 
 
