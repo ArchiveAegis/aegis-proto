@@ -20,24 +20,40 @@ fi
 
 cd "${BASE_DIR}"
 
-echo "Current working directory: $(pwd)"
-echo "Listing files before preparation:"
+echo "Original directory structure:"
+find . -maxdepth 3 -not -path '*/.*'
+
+echo "Flattening generated file structure..."
+find . -type f -name "*.rs" -not -path "./lib.rs" -exec mv {} . \;
+
+find . -type d -empty -delete
+
+echo "Files after flattening:"
 ls -lh
 
-GENERATED_FILE=$(find . -maxdepth 1 -name "*.rs" ! -name "lib.rs" -printf "%f\n" | head -n 1)
+MAIN_FILE=$(find . -maxdepth 1 -name "*.rs" ! -name "lib.rs" ! -name "*tonic*" -printf "%f\n" | head -n 1)
+TONIC_FILE=$(find . -maxdepth 1 -name "*tonic.rs" -printf "%f\n" | head -n 1)
 
-if [ -z "$GENERATED_FILE" ]; then
-    echo "Error: No generated .rs file found in ${BASE_DIR}."
-    echo "Files present:"
-    ls -R
+if [ -z "$MAIN_FILE" ]; then
+    echo "Error: Could not find main generated .rs file."
     exit 1
 fi
 
-echo "Detected generated source file: ${GENERATED_FILE}"
+echo "Detected Main File: ${MAIN_FILE}"
+echo "Detected Tonic File: ${TONIC_FILE}"
 
 echo "Generating lib.rs..."
 
-echo "pub mod datasource { pub mod v1 { include!(\"${GENERATED_FILE}\"); } }" > lib.rs
+{
+    echo "pub mod datasource {"
+    echo "    pub mod v1 {"
+    echo "        include!(\"${MAIN_FILE}\");"
+    if [ -n "$TONIC_FILE" ]; then
+        echo "        include!(\"${TONIC_FILE}\");"
+    fi
+    echo "    }"
+    echo "}"
+} > lib.rs
 
 if [ -f "../../../README.md" ]; then
     echo "Copying README.md..."
@@ -56,8 +72,7 @@ description = "Aegis Platform Protobuf Definitions"
 license = "MIT"
 repository = "${REPO_URL}"
 include = [
-    "${GENERATED_FILE}",
-    "lib.rs",
+    "*.rs",
     "README.md"
 ]
 
@@ -69,8 +84,5 @@ prost-types = "0.12"
 [lib]
 path = "lib.rs"
 EOF
-
-echo "Cargo.toml content:"
-cat Cargo.toml
 
 echo "Rust crate preparation complete."
