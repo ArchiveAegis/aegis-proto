@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.3](https://github.com/ArchiveAegis/aegis-proto/compare/v0.1.2...v0.1.3) (2026-01-07)
+
+
+### Bug Fixes
+
+* **build:** use yaml folded style to fix protoc flag parsing ([47aca52](https://github.com/ArchiveAegis/aegis-proto/commit/47aca520b5c1ed632d6d010499de6d0833be22ae))
+
 ## [0.1.2](https://github.com/ArchiveAegis/aegis-proto/compare/v0.1.1...v0.1.2) (2026-01-07)
 
 
