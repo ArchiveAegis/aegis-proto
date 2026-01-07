@@ -38,32 +38,10 @@ jobs:
           fi
           
           echo "Preparing Rust release for version: $VERSION"
-          echo "pub mod datasource { pub mod v1 { include!(\"datasource.v1.rs\"); } }" > gen/rust/proto/lib.rs
-
-          cat <<EOF > gen/rust/proto/Cargo.toml
-          [package]
-          name = "aegis-proto"
-          version = "$VERSION"
-          edition = "2021"
-          description = "Aegis Platform Protobuf Definitions"
-          license = "MIT"
-          repository = "https://github.com/${{ github.repository }}"
-          include = [
-            "datasource.v1.rs",
-            "lib.rs",
-            "README.md"
-          ]
-
-          [dependencies]
-          prost = "0.12"
-          tonic = "0.10"
-          prost-types = "0.12"
-
-          [lib]
-          path = "lib.rs"
-          EOF
           
-          cp README.md gen/rust/proto/
+          # Grant execution permission and run the script
+          chmod +x ./scripts/prepare-rust-release.sh
+          ./scripts/prepare-rust-release.sh "$VERSION"
 
       - name: Publish to Crates.io
         working-directory: gen/rust/proto
