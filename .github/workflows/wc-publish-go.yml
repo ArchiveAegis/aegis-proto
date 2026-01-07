@@ -40,7 +40,8 @@ jobs:
           go mod init github.com/${{ github.repository }}/go
           go mod tidy
 
-          go build -v .
+          echo "Verifying Go module integrity..."
+          go build -v ./...
 
       - name: Publish to Release Branch
         uses: s0/git-publish-subdir-action@develop
