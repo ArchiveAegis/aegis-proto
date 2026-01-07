@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.5](https://github.com/ArchiveAegis/aegis-proto/compare/v0.1.4...v0.1.5) (2026-01-07)
+
+
+### Bug Fixes
+
+* correct proto package name and npm scope ([a2933b3](https://github.com/ArchiveAegis/aegis-proto/commit/a2933b3f6616b08a8daef5f3bea8907e4b389756))
+
 ## [0.1.4](https://github.com/ArchiveAegis/aegis-proto/compare/v0.1.3...v0.1.4) (2026-01-07)
 
 
