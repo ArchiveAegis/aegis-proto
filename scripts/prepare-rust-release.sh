@@ -1,50 +1,63 @@
 #!/bin/bash
-# -----------------------------------------------------------------------------
-# Script Name: prepare-rust-release.sh
-# Description: Prepares the Rust crate for publication by generating the
-#              necessary manifest and library entry points.
-#
-# Usage:       ./scripts/prepare-rust-release.sh <VERSION>
-# Example:     ./scripts/prepare-rust-release.sh 0.1.0
-# -----------------------------------------------------------------------------
 
 set -e
 
-# Validate arguments
 if [ -z "$1" ]; then
     echo "Error: Version argument is required."
     exit 1
 fi
 
 VERSION="$1"
-# Target directory for the Rust crate
 BASE_DIR="gen/rust/proto"
+REPO_URL="https://github.com/ArchiveAegis/aegis-proto"
 
 echo "Starting Rust crate preparation for version: ${VERSION}"
 
-# Ensure the target directory exists
 if [ ! -d "${BASE_DIR}" ]; then
     echo "Error: Target directory ${BASE_DIR} does not exist. Please run generation task first."
     exit 1
 fi
 
+cd "${BASE_DIR}"
+
+echo "Current working directory: $(pwd)"
+echo "Listing files before preparation:"
+ls -lh
+
+GENERATED_FILE=$(find . -maxdepth 1 -name "*.rs" ! -name "lib.rs" -printf "%f\n" | head -n 1)
+
+if [ -z "$GENERATED_FILE" ]; then
+    echo "Error: No generated .rs file found in ${BASE_DIR}."
+    echo "Files present:"
+    ls -R
+    exit 1
+fi
+
+echo "Detected generated source file: ${GENERATED_FILE}"
+
 echo "Generating lib.rs..."
-echo 'pub mod datasource { pub mod v1 { include!("datasource.v1.rs"); } }' > "${BASE_DIR}/lib.rs"
+
+echo "pub mod datasource { pub mod v1 { include!(\"${GENERATED_FILE}\"); } }" > lib.rs
+
+if [ -f "../../../README.md" ]; then
+    echo "Copying README.md..."
+    cp "../../../README.md" .
+else
+    echo "Warning: README.md not found in project root."
+fi
 
 echo "Generating Cargo.toml..."
-cat <<EOF > "${BASE_DIR}/Cargo.toml"
+cat <<EOF > Cargo.toml
 [package]
 name = "aegis-proto"
 version = "${VERSION}"
 edition = "2021"
 description = "Aegis Platform Protobuf Definitions"
 license = "MIT"
-repository = "https://github.com/ArchiveAegis/aegis-proto"
-
-# Critical: Explicitly include generated sources.
-# This bypasses default behavior where gitignored files are excluded from the crate.
+repository = "${REPO_URL}"
 include = [
-    "**/*.rs",
+    "${GENERATED_FILE}",
+    "lib.rs",
     "README.md"
 ]
 
@@ -57,11 +70,7 @@ prost-types = "0.12"
 path = "lib.rs"
 EOF
 
-if [ -f "README.md" ]; then
-    echo "Copying README.md..."
-    cp README.md "${BASE_DIR}/"
-else
-    echo "Warning: README.md not found in root."
-fi
+echo "Cargo.toml content:"
+cat Cargo.toml
 
 echo "Rust crate preparation complete."
