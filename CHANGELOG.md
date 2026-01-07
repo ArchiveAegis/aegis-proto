@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.9](https://github.com/ArchiveAegis/aegis-proto/compare/v0.1.8...v0.1.9) (2026-01-07)
+
+
+### Bug Fixes
+
+* **rust:** update dependencies to tonic 0.12 and add tonic-prost to resolve build errors ([eaaebe3](https://github.com/ArchiveAegis/aegis-proto/commit/eaaebe31828df37851d1a0596b4e840632066e72))
+
 ## [0.1.8](https://github.com/ArchiveAegis/aegis-proto/compare/v0.1.7...v0.1.8) (2026-01-07)
 
 
