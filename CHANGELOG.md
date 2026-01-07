@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.6](https://github.com/ArchiveAegis/aegis-proto/compare/v0.1.5...v0.1.6) (2026-01-07)
+
+
+### Bug Fixes
+
+* **ci:** resolve missing generated sources in rust release ([f0e8ece](https://github.com/ArchiveAegis/aegis-proto/commit/f0e8eceda89f2238e08c1665cf739c69b0b27873))
+* **rust:** add 'include' to Cargo.toml to bypass gitignore ([d613eb3](https://github.com/ArchiveAegis/aegis-proto/commit/d613eb324d2273b961a52b0625e697c9696b2a02))
+
 ## [0.1.5](https://github.com/ArchiveAegis/aegis-proto/compare/v0.1.4...v0.1.5) (2026-01-07)
 
 
