@@ -27,7 +27,7 @@ jobs:
           RUSTC_WRAPPER: ""
 
       - name: Generate Protobuf Code
-        run: task gen
+        run: task gen-rust
 
       - name: Prepare Rust Crate
         run: |

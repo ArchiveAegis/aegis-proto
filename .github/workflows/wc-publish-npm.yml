@@ -10,6 +10,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
+
     steps:
       - uses: actions/checkout@v4
 
@@ -30,7 +31,7 @@ jobs:
         run: npm install ts-proto grpc-tools
 
       - name: Generate Protobuf Code
-        run: task gen
+        run: task gen-ts
 
       - name: Prepare NPM Package
         run: |

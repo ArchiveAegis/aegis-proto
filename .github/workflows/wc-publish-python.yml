@@ -31,7 +31,7 @@ jobs:
           pip install grpcio-tools
 
       - name: Generate Protobuf Code
-        run: task gen
+        run: task gen-python
 
       - name: Prepare Python Package
         run: |
