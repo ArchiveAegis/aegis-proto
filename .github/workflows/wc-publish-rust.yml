@@ -1,0 +1,67 @@
+name: Component - Publish Rust
+
+on:
+  workflow_call:
+
+jobs:
+  publish:
+    name: Publish to Crates.io
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Protoc & Task
+        run: |
+          sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
+          curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v25.3/protoc-25.3-linux-x86_64.zip
+          unzip -q protoc-25.3-linux-x86_64.zip -d $HOME/.local
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Install Rust Protobuf Plugins
+        run: |
+          cargo install protoc-gen-prost protoc-gen-tonic
+        env:
+          RUSTC_WRAPPER: ""
+
+      - name: Generate Protobuf Code
+        run: task gen
+
+      - name: Prepare Rust Crate
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            VERSION="0.0.0-dev"
+          else
+            VERSION=${GITHUB_REF_NAME#v}
+          fi
+          
+          echo "Preparing Rust release for version: $VERSION"
+          echo "pub mod datasource { pub mod v1 { include!(\"datasource.v1.rs\"); } }" > gen/rust/proto/lib.rs
+
+          cat <<EOF > gen/rust/proto/Cargo.toml
+          [package]
+          name = "aegis-proto"
+          version = "$VERSION"
+          edition = "2021"
+          description = "Aegis Platform Protobuf Definitions"
+          license = "MIT"
+          repository = "https://github.com/${{ github.repository }}"
+
+          [dependencies]
+          prost = "0.12"
+          tonic = "0.10"
+          prost-types = "0.12"
+
+          [lib]
+          path = "lib.rs"
+          EOF
+          
+          cp README.md gen/rust/proto/
+
+      - name: Publish to Crates.io
+        working-directory: gen/rust/proto
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: cargo publish --allow-dirty

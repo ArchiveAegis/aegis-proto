@@ -42,10 +42,8 @@ jobs:
           fi
           echo "Preparing Python release for version: $VERSION"
 
-          # 补全 __init__.py
           find gen/python -type d -exec touch {}/__init__.py \;
-          
-          # 动态生成 pyproject.toml
+
           cat <<EOF > pyproject.toml
           [build-system]
           requires = ["setuptools>=61.0"]

@@ -10,12 +10,26 @@ permissions:
   id-token: write
 
 jobs:
+  # 1. Python
   call-python-publish:
     name: Call Python Release
     uses: ./.github/workflows/wc-publish-python.yml
     secrets: inherit
 
+  # 2. Go
   call-go-publish:
     name: Call Go Release
     uses: ./.github/workflows/wc-publish-go.yml
+    secrets: inherit
+
+  # 3. Rust
+  call-rust-publish:
+    name: Call Rust Release
+    uses: ./.github/workflows/wc-publish-rust.yml
+    secrets: inherit
+
+  # 4. NPM
+  call-npm-publish:
+    name: Call NPM Release
+    uses: ./.github/workflows/wc-publish-npm.yml
     secrets: inherit

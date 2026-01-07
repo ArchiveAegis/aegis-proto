@@ -1,0 +1,74 @@
+name: Component - Publish NPM
+
+on:
+  workflow_call:
+
+jobs:
+  publish:
+    name: Publish to NPM
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install Protoc & Task
+        run: |
+          sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
+          curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v25.3/protoc-25.3-linux-x86_64.zip
+          unzip -q protoc-25.3-linux-x86_64.zip -d $HOME/.local
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Install TS Proto
+        run: npm install ts-proto grpc-tools
+
+      - name: Generate Protobuf Code
+        run: task gen
+
+      - name: Prepare NPM Package
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            VERSION="0.0.0-dev.$(date +%s)"
+          else
+            VERSION=${GITHUB_REF_NAME#v}
+          fi
+          
+          echo "Preparing NPM release for version: $VERSION"
+          cd gen/ts/proto
+
+          cat <<EOF > package.json
+          {
+            "name": "@aegis-platform/proto", 
+            "version": "$VERSION",
+            "description": "Aegis Platform Protobuf Definitions",
+            "main": "datasource/v1/datasource.ts",
+            "types": "datasource/v1/datasource.ts",
+            "repository": {
+              "type": "git",
+              "url": "git+https://github.com/${{ github.repository }}.git"
+            },
+            "author": "Aegis Team",
+            "license": "MIT",
+            "dependencies": {
+              "long": "^5.0.0",
+              "protobufjs": "^7.0.0",
+              "rxjs": "^7.0.0",
+              "@grpc/grpc-js": "^1.9.0"
+            }
+          }
+          EOF
+
+          cp ../../../README.md .
+
+      - name: Publish to NPM
+        working-directory: gen/ts/proto
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public

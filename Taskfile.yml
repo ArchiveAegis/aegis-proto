@@ -4,41 +4,32 @@ vars:
   PROTO_ROOT: proto
   GO_OUT: gen/go/proto
   PY_OUT: gen/python/proto
+  RUST_OUT: gen/rust/proto
+  TS_OUT: gen/ts/proto
 
 tasks:
-  # 1. Ensure output directories exist.
   setup:
-    desc: Create Go/Python output directories
+    desc: Create output directories
     cmds:
-      # macOS / Linux
-      - cmd: mkdir -p {{.GO_OUT}} {{.PY_OUT}}
-        platforms: [linux, darwin]
-      # Windows PowerShell
-      - cmd: powershell -NoProfile -Command 'foreach ($d in @("{{.GO_OUT}}","{{.PY_OUT}}")) { if (-not (Test-Path $d)) { New-Item -ItemType Directory -Path $d -Force | Out-Null } }'
-        platforms: [windows]
+      - mkdir -p {{.GO_OUT}} {{.PY_OUT}} {{.RUST_OUT}} {{.TS_OUT}}
 
-  # 2. Generate Go + Python gRPC code.
   gen:
-    desc: Generate Go and Python gRPC code
+    desc: Generate all SDKs
     deps: [setup]
     cmds:
-      # 2.1 Go
-      - cmd: |
-          protoc -I {{.PROTO_ROOT}} \
-                 --go_out={{.GO_OUT}} --go_opt=paths=source_relative \
-                 --go-grpc_out={{.GO_OUT}} --go-grpc_opt=paths=source_relative \
-                 {{.PROTO_ROOT}}/datasource/v1/datasource.proto
+      # 1. Go
+      - protoc -I {{.PROTO_ROOT}} --go_out={{.GO_OUT}} --go_opt=paths=source_relative --go-grpc_out={{.GO_OUT}} --go-grpc_opt=paths=source_relative {{.PROTO_ROOT}}/datasource/v1/datasource.proto
 
-      # 2.2 Python
-      - cmd: python -m grpc_tools.protoc -I {{.PROTO_ROOT}} --python_out={{.PY_OUT}} --grpc_python_out={{.PY_OUT}} {{.PROTO_ROOT}}/datasource/v1/datasource.proto
+      # 2. Python
+      - python -m grpc_tools.protoc -I {{.PROTO_ROOT}} --python_out={{.PY_OUT}} --grpc_python_out={{.PY_OUT}} {{.PROTO_ROOT}}/datasource/v1/datasource.proto
 
-  # 3. Clean generated outputs.
+      # 3. Rust
+      - protoc -I {{.PROTO_ROOT}} --prost_out={{.RUST_OUT}} --prost_opt=paths=source_relative --tonic_out={{.RUST_OUT}} --tonic_opt=paths=source_relative {{.PROTO_ROOT}}/datasource/v1/datasource.proto
+
+      # 4. TypeScript
+      - protoc -I {{.PROTO_ROOT}} --plugin=protoc-gen-ts_proto=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out={{.TS_OUT}} --ts_proto_opt=esModuleInterop=true,outputServices=grpc-js {{.PROTO_ROOT}}/datasource/v1/datasource.proto
+
   clean:
-    desc: Delete Go/Python generated directories
+    desc: Clean generated files
     cmds:
-      # macOS / Linux
-      - cmd: rm -rf {{.GO_OUT}} {{.PY_OUT}}
-        platforms: [linux, darwin]
-      # Windows PowerShell
-      - cmd: powershell -NoProfile -Command 'foreach ($d in @("{{.GO_OUT}}","{{.PY_OUT}}")) { if (Test-Path $d) { Remove-Item -Recurse -Force $d | Out-Null } }'
-        platforms: [windows]
+      - rm -rf gen/
