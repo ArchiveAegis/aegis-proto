@@ -17,36 +17,40 @@ tasks:
     desc: Generate Go SDK
     deps: [setup]
     cmds:
-      - protoc -I {{.PROTO_ROOT}} \
-        --go_out={{.GO_OUT}} --go_opt=paths=source_relative \
-        --go-grpc_out={{.GO_OUT}} --go-grpc_opt=paths=source_relative \
+      - >-
+        protoc -I {{.PROTO_ROOT}}
+        --go_out={{.GO_OUT}} --go_opt=paths=source_relative
+        --go-grpc_out={{.GO_OUT}} --go-grpc_opt=paths=source_relative
         {{.PROTO_ROOT}}/datasource/v1/datasource.proto
 
   gen-python:
     desc: Generate Python SDK
     deps: [setup]
     cmds:
-      - python -m grpc_tools.protoc -I {{.PROTO_ROOT}} \
-        --python_out={{.PY_OUT}} --grpc_python_out={{.PY_OUT}} \
+      - >-
+        python -m grpc_tools.protoc -I {{.PROTO_ROOT}}
+        --python_out={{.PY_OUT}} --grpc_python_out={{.PY_OUT}}
         {{.PROTO_ROOT}}/datasource/v1/datasource.proto
 
   gen-rust:
     desc: Generate Rust SDK
     deps: [setup]
     cmds:
-      - protoc -I {{.PROTO_ROOT}} \
-        --prost_out={{.RUST_OUT}} --prost_opt=paths=source_relative \
-        --tonic_out={{.RUST_OUT}} --tonic_opt=paths=source_relative \
+      - >-
+        protoc -I {{.PROTO_ROOT}}
+        --prost_out={{.RUST_OUT}} --prost_opt=paths=source_relative
+        --tonic_out={{.RUST_OUT}} --tonic_opt=paths=source_relative
         {{.PROTO_ROOT}}/datasource/v1/datasource.proto
 
   gen-ts:
     desc: Generate TypeScript SDK
     deps: [setup]
     cmds:
-      - protoc -I {{.PROTO_ROOT}} \
-        --plugin=protoc-gen-ts_proto=./node_modules/.bin/protoc-gen-ts_proto \
-        --ts_proto_out={{.TS_OUT}} \
-        --ts_proto_opt=esModuleInterop=true,outputServices=grpc-js \
+      - >-
+        protoc -I {{.PROTO_ROOT}}
+        --plugin=ts_proto=./node_modules/.bin/protoc-gen-ts_proto
+        --ts_proto_out={{.TS_OUT}}
+        --ts_proto_opt=esModuleInterop=true,outputServices=grpc-js
         {{.PROTO_ROOT}}/datasource/v1/datasource.proto
 
   gen:
