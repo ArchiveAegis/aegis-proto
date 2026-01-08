@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.11](https://github.com/ArchiveAegis/aegis-proto/compare/v0.1.10...v0.1.11) (2026-01-08)
+
+
+### Bug Fixes
+
+* **rust:** align tonic versions and avoid duplicate tonic includes ([a1be26f](https://github.com/ArchiveAegis/aegis-proto/commit/a1be26f7773858c30c6a57aa3825ba6668de2f4f))
+
 ## [0.1.10](https://github.com/ArchiveAegis/aegis-proto/compare/v0.1.9...v0.1.10) (2026-01-07)
 
 
