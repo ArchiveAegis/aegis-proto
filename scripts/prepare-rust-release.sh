@@ -85,8 +85,8 @@ include = [
 ]
 
 [dependencies]
-prost = "0.13"
-prost-types = "0.13"
+prost = "0.14"
+prost-types = "0.14"
 tonic = "0.14"
 tonic-prost = "0.14"
 tokio = { version = "1", features = ["rt-multi-thread"] }
