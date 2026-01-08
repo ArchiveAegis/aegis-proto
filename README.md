@@ -12,7 +12,7 @@ With an automated CI pipeline, we generate and publish type-safe SDKs for **Go /
 - **Single Source of Truth (SSOT)**: all protocol changes happen in `proto/`
 - **Multi-language SDK publishing**: Go / Rust / TypeScript / Python
 - **Type safety**: reduces drift and runtime errors caused by hand-written DTOs/interfaces
-- **CI-driven releases**: local `gen/` is for debugging only and must not be committed to `main`
+- **CI-driven releases**: local `gen/` is for debugging only and must not be committed to `master`
 
 ---
 
