@@ -44,11 +44,19 @@ echo "Detected Tonic File: ${TONIC_FILE}"
 
 echo "Generating lib.rs..."
 
+TONIC_INCLUDED=false
+if [ -n "$TONIC_FILE" ]; then
+    if grep -q "$TONIC_FILE" "$MAIN_FILE" || grep -q "pub mod data_source_client" "$MAIN_FILE"; then
+        echo "Main file already includes Tonic service definitions; skipping explicit include to avoid duplication."
+        TONIC_INCLUDED=true
+    fi
+fi
+
 {
     echo "pub mod datasource {"
     echo "    pub mod v1 {"
     echo "        include!(\"${MAIN_FILE}\");"
-    if [ -n "$TONIC_FILE" ]; then
+    if [ -n "$TONIC_FILE" ] && [ "$TONIC_INCLUDED" != true ]; then
         echo "        include!(\"${TONIC_FILE}\");"
     fi
     echo "    }"
@@ -79,7 +87,7 @@ include = [
 [dependencies]
 prost = "0.13"
 prost-types = "0.13"
-tonic = "0.12"
+tonic = "0.14"
 tonic-prost = "0.14"
 tokio = { version = "1", features = ["rt-multi-thread"] }
 http-body = "1.0"
